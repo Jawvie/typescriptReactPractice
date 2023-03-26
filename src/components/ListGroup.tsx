@@ -1,25 +1,26 @@
-import { MouseEvent } from "react";
+import { useState } from "react";
 
-function ListGroup () {
-    let items = ['San Francisco', 'Tokyo', 'London', 'New York', 'Paris'];
+//{ items: [], heading: '' }
+interface Props {
+    items: string[],
+    heading: string,
+}
 
-    //Event Handler
-    const handleClick = (event: MouseEvent) => {
-        if (event.currentTarget.textContent === 'Tokyo') {
-            console.log('Testing for certain click options') 
-        }
-        console.log(event);
-    };
+//destructure props {it, hea}
+function ListGroup ({items, heading}: Props) {
+    //State Hook data/state that will change overtime
+    const [selectedIndex, setSelectedIndex] = useState(-1) //selectedindex is the func to change the state
+
 
     return (
         <>
-            <h1>List heading</h1>
+            <h1>{heading}</h1>
             { items.length === 0 && <p>No items found</p> }
             <ul className="list-group">
                 {items.map((item, index) => <li
-                                    className="list-group-item"
+                                    className={selectedIndex===index ? 'list-group-item active': 'list-group-item'}
                                     key={item}
-                                    onClick={handleClick}>
+                                    onClick={() => setSelectedIndex(index)}>
                                         {item}
                                     </li>)}
             </ul>
